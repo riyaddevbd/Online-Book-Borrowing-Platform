@@ -16,17 +16,19 @@ export default function PrivateRoute({ children }) {
           credentials: 'include',
           cache: 'no-store',
         });
-        if (res.ok) {
-          const data = await res.json();
-          console.log('PrivateRoute session data:', data); // Add logging
-          if (data.user) {
-            setIsAuthenticated(true);
-          } else {
-            console.log('PrivateRoute: No user found in session, redirecting to /login'); // Add logging
-            router.push('/login');
-          }
+
+        const contentType = res.headers.get("content-type");
+        let data = null;
+        if (res.ok && contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        }
+
+        console.log('PrivateRoute session data:', data); 
+
+        if (data && data.user) {
+          setIsAuthenticated(true);
         } else {
-          console.log('PrivateRoute: Session fetch not OK, status:', res.status, 'redirecting to /login'); // Add logging
+          console.log('PrivateRoute: No valid session found, redirecting to /login');
           router.push('/login');
         }
       } catch (error) {

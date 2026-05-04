@@ -71,6 +71,7 @@ export const booksData = [
     available_quantity: 10,
     image_url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=600&fit=crop"
   },
+
   {
     id: "9",
     title: "Climate Change Science",
@@ -98,6 +99,7 @@ export const booksData = [
     available_quantity: 7,
     image_url: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=600&fit=crop"
   },
+  
   {
     id: "12",
     title: "Cosmos: A Journey",
