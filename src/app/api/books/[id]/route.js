@@ -28,7 +28,7 @@ export async function GET(request, { params }) {
   }
 }
 
-// PUT /api/books/[id] - Update book (borrow functionality)
+// PUT /api/books/[id] - Update book (borrow functionality) 
 export async function PUT(request, { params }) {
   try {
     await dbConnect();
@@ -66,7 +66,8 @@ export async function PUT(request, { params }) {
     return NextResponse.json(
       { success: false, message: 'Invalid action' },
       { status: 400 }
-    );
+    ); 
+    
   } catch (error) {
     console.error('Error updating book:', error);
     return NextResponse.json(

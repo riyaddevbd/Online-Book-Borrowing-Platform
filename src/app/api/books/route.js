@@ -8,7 +8,7 @@ export async function GET(request) {
   try {
     await connectDB();
     
-    // Check if books exist, if not seed them
+    // Check if books exist
     const count = await Book.countDocuments();
     if (count === 0 && booksData.length > 0) {
       await Book.insertMany(booksData);
