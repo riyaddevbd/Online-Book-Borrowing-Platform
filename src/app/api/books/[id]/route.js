@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/lib/mongodb';
+import dbConnect from '@/lib/dbConnect';
 import Book from '@/models/Book';
 
 // GET /api/books/[id] - Get a single book
 export async function GET(request, { params }) {
   try {
-    await connectDB();
+    await dbConnect();
     
-    const { id } = params;
+    const { id } = await params;
     
     const book = await Book.findOne({ id });
     
@@ -31,9 +31,9 @@ export async function GET(request, { params }) {
 // PUT /api/books/[id] - Update book (borrow functionality)
 export async function PUT(request, { params }) {
   try {
-    await connectDB();
+    await dbConnect();
     
-    const { id } = params;
+    const { id } = await params;
     const { action } = await request.json();
     
     const book = await Book.findOne({ id });

@@ -33,24 +33,30 @@ export default function BorrowButton({ bookId, isAvailable }) {
   }, []); // Empty dependency array means this runs once on mount
 
   const handleBorrow = async () => {
+    // Redirect to login if not logged in
+    if (!user) {
+      toast.error("You need to be logged in to borrow a book.");
+      router.push('/login');
+      return;
+    }
+
     setLoading(true);
     
     try {
-      // Simulate API Call - replace with your actual fetch logic
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Client-side check for session before proceeding with borrow logic
-      if (!user) {
-        toast.error("You need to be logged in to borrow a book.");
-        router.push('/login');
-        return;
-      }
-      
-      // Success logic
-      toast.success("Success! You have borrowed this book.", {
-        duration: 4000,
-        position: "top-center",
+      const res = await fetch(`/api/books/${bookId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'borrow' }),
       });
+
+      const data = await res.json();
+      
+      if (res.ok) {
+        toast.success("Success! You have borrowed this book.");
+        router.refresh(); // রিফ্রেশ দিলে Quantity আপডেট হবে
+      } else {
+        toast.error(data.message || "Failed to borrow");
+      }
     } catch (error) {
       toast.error("Failed to borrow the book. Please try again.");
     } finally {
@@ -61,7 +67,7 @@ export default function BorrowButton({ bookId, isAvailable }) {
   return (
     <button
       onClick={handleBorrow} // This will now handle the session check
-      disabled={!isAvailable || loading || isCheckingSession || !user} // Disable if not available, loading, checking session, or no user
+      disabled={!isAvailable || loading || isCheckingSession} // Guest user can click to redirect
       className={`btn btn-primary w-full text-lg gap-2 ${loading ? "loading" : ""}`}
     >
       {loading || isCheckingSession ? <Loader2 className="animate-spin" /> : <HandHelping size={20} />}
