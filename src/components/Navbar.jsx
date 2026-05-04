@@ -14,7 +14,13 @@ export default function Navbar() {
 
   useEffect(() => {
     fetch('/api/auth/get-session', { credentials: 'include', cache: 'no-store' })
-      .then(res => res.json())
+      .then(res => {
+        const contentType = res.headers.get("content-type");
+        if (res.ok && contentType && contentType.includes("application/json")) {
+          return res.json();
+        }
+        return null;
+      })
       .then(data => {
         if (data && data.user) {
           setUser(data.user);

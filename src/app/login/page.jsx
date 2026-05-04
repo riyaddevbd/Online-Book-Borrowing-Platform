@@ -34,12 +34,14 @@ export default function LoginPage() {
         }),
       });
 
+      const contentType = res.headers.get("content-type");
+      const data = contentType && contentType.includes("application/json") ? await res.json() : null;
+
       if (res.ok) {
         toast.success('Login successful!');
         window.location.href = "/";
       } else {
-        const data = await res.json();
-        toast.error(data.message || 'Invalid email or password');
+        toast.error(data?.message || 'Invalid email or password');
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -63,9 +65,14 @@ export default function LoginPage() {
       });
 
       if (res.ok) {
-        const data = await res.json();
-        if (data.url) {
-          window.location.href = data.url;
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const data = await res.json();
+          if (data.url) {
+            window.location.href = data.url;
+          }
+        } else {
+          toast.error('Unexpected response from server');
         }
       } else {
         toast.error('Failed to initiate Google login');
