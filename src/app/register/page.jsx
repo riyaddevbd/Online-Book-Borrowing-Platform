@@ -201,15 +201,18 @@ export default function RegisterPage() {
             Continue with Google
           </button>
 
-          {/* Login Link */}
-          <p className="text-center text-sm text-gray-500 mt-4">
-            Already have an account?{" "}
-            <Link href="/login" className="link link-primary">
-              Login here
-            </Link>
-          </p>
+            {/* Login Link */}
+            <p className="text-center text-sm text-gray-500 mt-4">
+              Already have an account?{" "}
+              <Link 
+                href="/login" 
+                className="text-primary hover:underline font-medium"
+              >
+                Login here
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }

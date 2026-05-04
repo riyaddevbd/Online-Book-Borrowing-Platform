@@ -16,7 +16,11 @@ export default function Navbar() {
     fetch('/api/auth/get-session', { credentials: 'include', cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
-        if (data.user) setUser(data.user);
+        if (data && data.user) {
+          setUser(data.user);
+        } else {
+          setUser(null);
+        }
       })
       .catch(() => setUser(null))
       .finally(() => setIsLoading(false));
@@ -102,3 +106,4 @@ export default function Navbar() {
     </nav>
   );
 }
+         

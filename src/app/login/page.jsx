@@ -36,8 +36,7 @@ export default function LoginPage() {
 
       if (res.ok) {
         toast.success('Login successful!');
-        router.push('/');
-        router.refresh();
+        window.location.href = "/";
       } else {
         const data = await res.json();
         toast.error(data.message || 'Invalid email or password');
@@ -157,14 +156,17 @@ export default function LoginPage() {
           </button>
 
           {/* Register Link */}
-          <p className="text-center text-sm text-gray-500 mt-4">
-            Do not have an account?{" "}
-            <Link href="/register" className="link link-primary">
-              Register here
-            </Link>
-          </p>
+            <p className="text-center text-sm text-gray-500 mt-4">
+              Do not have an account?{" "}
+              <Link 
+                href="/register" 
+                className="text-primary hover:underline font-medium"
+              >
+                Register here
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
